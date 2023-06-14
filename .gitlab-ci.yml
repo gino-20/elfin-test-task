@@ -6,7 +6,7 @@ stages:
 variables:
   IMAGE_TAG: latest
 
-build:
+.build:
   stage: build
   tags: 
     - elfin_docker
@@ -20,6 +20,11 @@ build:
      --context "${CI_PROJECT_DIR}/"
      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
      --destination "${CI_REGISTRY_IMAGE}/test_task:${CI_COMMIT_SHA}"
+
+build_image:
+  script:
+    - docker build -t "${CI_REGISTRY_IMAGE}/test_task:${CI_COMMIT_SHA}" .
+    - docker push "${CI_REGISTRY_IMAGE}/test_task:${CI_COMMIT_SHA}"
 
 push2registry:
   stage: release
