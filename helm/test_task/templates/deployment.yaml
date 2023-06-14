@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-task
+  labels:
+    app: test-task
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: test-task
+  template:
+    metadata:
+      labels:
+        app: test-task
+    spec:
+      containers:
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        name: test-task
+        imagePullPolicy: Always
+        ports:
+          - name: nginx-server
+            containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /test.html
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 30
+          timeoutSeconds: 2
+          failureThreshold: 6
+        readinessProbe:
+          httpGet:
+            path: /test.html
+            port: 8000
+          periodSeconds: 30
+          timeoutSeconds: 2
+          failureThreshold: 1
+        startupProbe:
+          httpGet:
+            path: /test.html
+            port: 8000
+          periodSeconds: 3
+          timeoutSeconds: 2
+          failureThreshold: 6
+        resources:
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
