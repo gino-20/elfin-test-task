@@ -1,0 +1,38 @@
+stages:
+  - build
+  - release
+  - deploy
+
+variables:
+  IMAGE_TAG: latest
+
+build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+     --cache-run-layers
+     --cache-copy-layers
+     --context "${CI_PROJECT_DIR}/"
+     --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+     --destination "${CI_REGISTRY_IMAGE}/test_task:${CI_COMMIT_SHA}"
+
+push2registry:
+  stage: release
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login -u $REMOTE_REGISRTY_USER -p $REMOTE_REGISTRY_PASS $REMOTE_REGISRTY
+  script:
+    - docker pull "${CI_REGISTRY_IMAGE}/test_task:${CI_COMMIT_SHA}"
+    - docker tag "${CI_REGISTRY_IMAGE}/test_task:${CI_COMMIT_SHA}" "${REMOTE_REGISTRY}:${IMAGE_TAG}"
+    - docker push "${REMOTE_REGISTRY}:${IMAGE_TAG}"
+
+deploy2k8s:
+  stage: deploy
+  image: alpine/helm:3.12.0
+  before_script:
+    - cat ${KUBECONFIGFILE} > ~/.kube/config
+  script:
+    - helm upgrade --install --atomic test_task ./helm/test_task
