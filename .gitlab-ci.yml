@@ -9,7 +9,7 @@ variables:
 build:
   stage: build
   tags: 
-    - elfin
+    - elfin_docker
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
@@ -24,7 +24,7 @@ build:
 push2registry:
   stage: release
   tags:
-    - elfin
+    - elfin_docker
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker login -u $REMOTE_REGISRTY_USER -p $REMOTE_REGISTRY_PASS $REMOTE_REGISRTY
@@ -36,7 +36,7 @@ push2registry:
 deploy2k8s:
   stage: deploy
   tags:
-    - elfin
+    - elfin_docker
   image: alpine/helm:3.12.0
   before_script:
     - cat ${KUBECONFIGFILE} > ~/.kube/config

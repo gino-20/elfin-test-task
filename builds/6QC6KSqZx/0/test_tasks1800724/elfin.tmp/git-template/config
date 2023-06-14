@@ -1,0 +1,6 @@
+[init]
+	defaultBranch = none
+[fetch]
+	recurseSubmodules = false
+[http "https://gitlab.com"]
+	sslCAInfo = /home/alex/stuff/work/freelance/elfin/test_task/builds/6QC6KSqZx/0/test_tasks1800724/elfin.tmp/CI_SERVER_TLS_CA_FILE
