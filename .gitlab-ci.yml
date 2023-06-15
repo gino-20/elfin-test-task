@@ -54,4 +54,4 @@ deploy2k8s:
     - cat ${CLIENT_CRT} > ~/.kube/client.crt
     - cat ${CLIENT_KEY} > ~/.kube/client.key
   script:
-    - helm upgrade --install --atomic test_task ./helm/test_task
+    - helm upgrade --install --atomic test-task ./helm/test_task
