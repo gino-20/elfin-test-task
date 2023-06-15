@@ -5,7 +5,7 @@ stages:
 
 variables:
   IMAGE_TAG: latest
-  IMGAE_NAME: elfin_test
+  IMAGE_NAME: elfin_test
 
 .build:
   stage: build
