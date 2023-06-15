@@ -45,6 +45,7 @@ deploy2k8s:
   tags:
     - elfin_docker
   image: alpine/helm:3.12.0
+  entrypoint: [""]
   before_script:
     - cat ${KUBECONFIGFILE} > ~/.kube/config
   script:
