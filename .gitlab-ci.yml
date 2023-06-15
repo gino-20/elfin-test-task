@@ -16,11 +16,11 @@ build:
   script:
     - >
       /kaniko/executor
-      --cache-run-layers
-      --cache-copy-layers
-      --context "${CI_PROJECT_DIR}/"
-      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}/test_task:${CI_COMMIT_SHA}"
+#      --cache-run-layers
+#      --cache-copy-layers
+#      --context "${CI_PROJECT_DIR}"
+#      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+#      --destination "${CI_REGISTRY_IMAGE}/test_task:${CI_COMMIT_SHA}"
 
 .build_image:
   stage: build
