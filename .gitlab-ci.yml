@@ -2,6 +2,7 @@ stages:
   - build
   - release
   - deploy
+  - check
 
 variables:
   IMAGE_TAG: latest
@@ -55,3 +56,20 @@ deploy2k8s:
     - cat ${CLIENT_KEY} > ~/.kube/client.key
   script:
     - helm upgrade --install --atomic test-task ./helm/test_task
+
+test-deploytment:
+  stage: check
+  tags:
+    - elfin_docker
+  image:
+    name: alpine/helm:3.12.0
+    entrypoint: [""]
+  before_script:
+    - mkdir -p ~/.kube
+    - cat ${KUBECONFIGFILE} > ~/.kube/config
+    - cat ${CA_CRT} > ~/.kube/ca.crt
+    - cat ${CLIENT_CRT} > ~/.kube/client.crt
+    - cat ${CLIENT_KEY} > ~/.kube/client.key
+  script:
+    - helm test test-task
+
