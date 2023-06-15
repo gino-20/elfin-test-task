@@ -35,7 +35,7 @@ push2registry:
   tags:
     - elfin_docker
   before_script:
-    - echo -n "${REMOTE_REGISTRY_PASS}"| docker login -u "${REMOTE_REGISRTY_USER}" --password-stdin "${REMOTE_REGISTRY}"
+    - echo -n "${REMOTE_REGISTRY_PASS}"| docker login -u "${REMOTE_REGISTRY_USER}" --password-stdin "${REMOTE_REGISTRY}"
   script:
     - docker tag "${IMAGE_NAME}:${CI_COMMIT_SHA}" "${REMOTE_REGISTRY}:${IMAGE_TAG}"
     - docker push "${REMOTE_REGISTRY}:${IMAGE_TAG}"
