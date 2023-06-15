@@ -48,6 +48,7 @@ deploy2k8s:
     name: alpine/helm:3.12.0
     entrypoint: [""]
   before_script:
+    - mkdir -p ~/.kube
     - cat ${KUBECONFIGFILE} > ~/.kube/config
   script:
     - helm upgrade --install --atomic test_task ./helm/test_task
