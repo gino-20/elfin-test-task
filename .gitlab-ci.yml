@@ -38,7 +38,7 @@ push2registry:
     - echo -n "${REMOTE_REGISTRY_PASS}"| docker login -u "${REMOTE_REGISTRY_USER}" --password-stdin 
   script:
     - docker tag "${IMAGE_NAME}:${CI_COMMIT_SHA}" "${REMOTE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-    - docker push "${REMOTE_REGISTRY}:${IMAGE_TAG}"
+    - docker push "${REMOTE_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
 deploy2k8s:
   stage: deploy
