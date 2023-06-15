@@ -50,5 +50,8 @@ deploy2k8s:
   before_script:
     - mkdir -p ~/.kube
     - cat ${KUBECONFIGFILE} > ~/.kube/config
+    - cat ${CA_CRT} > ~/.kube/ca.crt
+    - cat ${CLIENT_CRT} > ~/.kube/client.crt
+    - cat ${CLIENT_KEY} > ~/.kube/client.key
   script:
     - helm upgrade --install --atomic test_task ./helm/test_task
